@@ -1,1 +1,22 @@
-nbjkk
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kafka
+  namespace: kafka
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kafka
+      version: 25.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  values:
+    replicas: 3
+    zookeeper:
+      enabled: false
+    externalZookeeper:
+      servers:
+        - zookeeper.kafka.svc.cluster.local
